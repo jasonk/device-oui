@@ -304,7 +304,6 @@ sub oui_cmp {
 
 sub dump_cache {
     my $self = shift;
-    my $sort = @_ ? shift : 0;
 
     my @lines = (
         "\n",
@@ -314,9 +313,10 @@ sub dump_cache {
         "\n", "\n",
     );
 
-    my $out = sub {
-        my $d = shift;
+    my $db = $self->cache_handle;
 
+    foreach my $oui ( sort { $a cmp $b } keys %{ $db } ) {
+        my $d = { split( "\0", $db->{ $oui } ) };
         my $org = $d->{ 'organization' };
 
         push( @lines, 
@@ -335,24 +335,9 @@ sub dump_cache {
         } else {
             push( @lines, "\t\t\t\t\n" );
         }
-    };
-
-    my $db = $self->cache_handle;
-    if ( $sort ) {
-        foreach my $oui ( sort { $a cmp $b } keys %{ $db } ) {
-            $out->( { split( "\0", $db->{ $oui } ) } );
-        }
-    } else {
-        while ( my ( $oui, $data ) = each %{ $db } ) {
-            $out->( { split( "\0", $db->{ $oui } ) } );
-        }
     }
 
-    if ( defined wantarray ) {
-        return join( "", @lines );
-    } else {
-        print join( "", @lines );
-    }
+    return join( "", @lines );
 }
 
 1;
@@ -651,9 +636,9 @@ found.
 
 =head2 Device::OUI->dump_cache( $sort )
 
-This method is mostly for debugging purposes.  When called, it will dump (to
-C<STDOUT>) the contents of the cache database in the same format as the
-entries appear in the OUI registry file.
+This method is mostly for debugging purposes.  When called, it will dump the
+contents of the cache database in the same format as the entries appear in the
+OUI registry file.
 
 Takes one optional argument, if called with a true value, then the entries
 will be dumped in order, sorted by their OUIs.  With sorting turned off, this

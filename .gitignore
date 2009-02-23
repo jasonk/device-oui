@@ -9,3 +9,5 @@ Makefile.old
 MANIFEST.bak
 .*.swp
 .prove
+t/test-cache-file.txt
+t/test-cache.db

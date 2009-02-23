@@ -1,8 +1,5 @@
 #!/usr/bin/env perl
-# Device::OUI Copyright 2008 Jason Kohles
-# $Id: cache.t 5 2008-01-30 02:41:44Z jason $
-use strict;
-use warnings;
+use strict; use warnings;
 use FindBin qw( $Bin );
 BEGIN { require "$Bin/device-oui-test-lib.pl" };
 
@@ -69,3 +66,5 @@ sub cache_tests {
     ok( my $new = Device::OUI->cache( $test->{ 'oui' } ), "cache get" );
     is_deeply( $test, $new, "cache round-tripped ok" );
 }
+
+my $obj = Device::OUI->new( '00-17-F2' );

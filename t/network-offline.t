@@ -1,8 +1,5 @@
 #!/usr/bin/env perl
-# Device::OUI Copyright 2008 Jason Kohles
-# $Id: network-offline.t 5 2008-01-30 02:41:44Z jason $
-use strict;
-use warnings;
+use strict; use warnings;
 use FindBin qw( $Bin );
 BEGIN {
     require "$Bin/device-oui-test-lib.pl";
