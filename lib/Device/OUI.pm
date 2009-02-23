@@ -74,7 +74,7 @@ sub oui {
 
     if ( @_ ) {
         my $oui = shift;
-        if ( my $norm = $self->normalize_oui( $oui ) ) {
+        if ( my $norm = normalize_oui( $oui ) ) {
             $self->{ 'oui' } = $oui;
             $self->{ 'oui_norm' } = $norm;
             delete $self->{ 'lookup' };
@@ -89,9 +89,7 @@ sub oui {
 }
 
 sub oui_to_integers {
-    my $oui = pop; # take the argument off the end, just in case it's called
-                   # as a class method
-    if ( ! $oui ) { return () }
+    my $oui = shift || return;
 
     if ( ref $oui ) { return map { hex } split( '-', $oui->norm ) }
 
@@ -116,9 +114,8 @@ sub oui_to_integers {
 }
 
 sub normalize_oui {
-    my $oui = pop; # take the argument from the end, just in case it's called
-                   # as a class method
-    my @int = __PACKAGE__->oui_to_integers( $oui ) or return;
+    my $oui = shift;
+    my @int = oui_to_integers( $oui ) or return;
     return sprintf( '%02X-%02X-%02X', @int );
 }
 
@@ -179,7 +176,7 @@ sub update_from_file {
     sub have_lwp_simple {
         my $self = shift;
         if ( defined $HAVE_LWP_SIMPLE ) { return $HAVE_LWP_SIMPLE }
-        eval "require LWP::Simple";
+        eval "require LWP::Simple"; ## no critic
         if ( $@ ) {
             carp "Unable to load LWP::Simple, network access not available\n";
             $HAVE_LWP_SIMPLE = 0;
@@ -247,7 +244,7 @@ sub load_cache_from_file {
 
 sub search_url_for {
     my $self = shift;
-    my $oui = $self->normalize_oui( shift );
+    my $oui = normalize_oui( shift );
     if ( ! $oui ) { $oui = $self->norm }
 
     my $url_format = $self->search_url;
@@ -297,11 +294,10 @@ use Carp qw( confess );
     return \%data;
 }
 
-sub overload_cmp { return __PACKAGE__->oui_cmp( pop( @_ ) ? reverse @_ : @_ ) }
+sub overload_cmp { return oui_cmp( pop( @_ ) ? reverse @_ : @_ ) }
 sub oui_cmp {
-    shift while ( @_ > 2 );
-    my @l = __PACKAGE__->oui_to_integers( shift );
-    my @r = __PACKAGE__->oui_to_integers( shift );
+    my @l = oui_to_integers( shift );
+    my @r = oui_to_integers( shift );
 
     return ( $l[0] <=> $r[0] || $l[1] <=> $r[1] || $l[2] <=> $r[2] );
 }
@@ -565,30 +561,14 @@ You can get all of them by importing the ':all' tag:
 Given an OUI, normalizes it into an upper-case, zero padded, dash separated
 format and returns the normalized OUI.
 
-This method only uses the last argument provided to it, so it can safely be
-called as a class method as well.
-
 =head2 oui_cmp( $oui, $oui );
 
 This is a convenience method, given two Device::OUI objects, or two OUIs (in
 any acceptable format) or one of each, will return -1, 0, or 1, depending on
 whether the first OUI is less than, equal to, or greater than the second one.
 
-Device::OUI objects have C<cmp> and C<< <=> >> overloaded so that simply
+L<Device::OUI> objects have C<cmp> and C<< <=> >> overloaded so that simply
 comparing them will work as expected.
-
-This method only uses the last two arguments that it is provided, so it can
-safely be called as a class method, an instance method, or a function, as long
-as it is given two Device::OUI objects or OUIs.
-
-    $oui->oui_cmp( $oui2 );
-    Device::OUI->oui_cmp( $oui1, $oui2 );
-    Device::OUI::oui_cmp( $oui1, $oui2 );
-    
-    my @sorted = sort Device::OUI::oui_cmp @ouis;
-
-    use Device::OUI qw( oui_cmp );
-    my @sorted = sort oui_cmp @ouis;
 
 =head2 parse_oui_entry( $entry );
 
@@ -607,16 +587,10 @@ that looks like this:
         ],
     }
 
-This method only uses the last argument provided to it, so it can safely be
-called as a class method as well.
-
 =head2 my @parts = oui_to_integers( $oui );
 
 Given an OUI in any acceptable format, returns an array of three integers
 representing the values of the three bytes of the OUI.
-
-This method only uses the last argument provided to it, so it can safely be
-called as a class method as well.
 
 =head1 INTERNAL METHODS
 
