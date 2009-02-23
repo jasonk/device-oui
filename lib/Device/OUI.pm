@@ -10,7 +10,8 @@ use overload (
     '""'  => 'normalized',
     fallback => 1,
 );
-use base qw( Class::Accessor::Grouped Exporter );
+use base qw( Class::Accessor::Grouped );
+use Exporter qw( import );
 our @EXPORT_OK = qw(
     normalize_oui oui_cmp parse_oui_entry oui_to_integers
 );
