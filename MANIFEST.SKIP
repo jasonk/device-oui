@@ -6,3 +6,7 @@ MANIFEST.SKIP~
 cover_db
 Makefile$
 Makefile.old$
+.gitignore
+.prove
+.shipit
+MANIFEST.SKIP
