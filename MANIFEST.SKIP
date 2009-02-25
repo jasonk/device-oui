@@ -1,12 +1,43 @@
-.git/
-blib
-pm_to_blib
-MANIFEST.bak
-MANIFEST.SKIP~
-cover_db
-Makefile$
-Makefile.old$
-.gitignore
-.prove
-.shipit
-MANIFEST.SKIP
+# Avoid version control files.
+\bRCS\b
+\bCVS\b
+\bSCCS\b
+,v$
+\B\.svn\b
+\b_darcs\b
+\B\.git\b
+
+# Avoid Makemaker generated and utility files.
+\bMANIFEST\.bak
+\bMakefile$
+\bblib/
+\bMakeMaker-\d
+\bpm_to_blib\.ts$
+\bpm_to_blib$
+\bblibdirs\.ts$
+
+# Avoid Module::Build generated and utility files.
+\bBuild$
+\b_build/
+
+# Avoid temp and backup files.
+~$
+\.old$
+\#$
+\b\.#
+\.bak$
+\.sw.$
+
+# Avoid Devel::Cover files.
+\bcover_db\b
+
+# Don't include utility configuration files
+\B\.shipit$
+\B\.prove$
+\B\.gitignore$
+^\.shipit$
+^\.prove$
+
+# Don't include the MANIFEST.SKIP file itself
+^MANIFEST\.SKIP$
+
