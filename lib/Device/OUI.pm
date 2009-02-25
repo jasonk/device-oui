@@ -1,6 +1,6 @@
 package Device::OUI;
 use strict; use warnings;
-our $VERSION = '1.00';
+our $VERSION = '1.01';
 use IO::File ();
 use Carp qw( croak carp );
 use AnyDBM_File;
@@ -11,11 +11,9 @@ use overload (
     fallback => 1,
 );
 use base qw( Class::Accessor::Grouped );
-use Exporter qw( import );
-our @EXPORT_OK = qw(
-    normalize_oui oui_cmp parse_oui_entry oui_to_integers
-);
-our %EXPORT_TAGS = ( all => \@EXPORT_OK );
+use Sub::Exporter -setup => {
+    exports => [qw( normalize_oui oui_cmp parse_oui_entry oui_to_integers )],
+};
 
 __PACKAGE__->mk_group_accessors( inherited => qw(
     cache_db cache_file
@@ -543,6 +541,9 @@ these, you need to say so explicitly:
 You can get all of them by importing the ':all' tag:
 
     use Device::OUI ':all';
+
+Exporting is handled by L<Sub::Exporter>, so you can rename the imported
+methods if necessary.
 
 =head2 my $oui = normalize_oui( $input );
 

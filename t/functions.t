@@ -14,8 +14,6 @@ my @ouis = (
     ( map { $_->{ 'oui' } } samples() ), @ordered,
     qw( 00-00-01 00-00-02 ),
 );
-use Data::Dump qw( dump );
-print dump( \@ouis )."\n";
 my @bytes = map { sprintf( "%02X", $_ ) } ( 0 .. 255, reverse 0 .. 255 );
 while ( @bytes > 3 ) {
     push( @ouis, join( '-', splice( @bytes, 0, 3 ) ) );
