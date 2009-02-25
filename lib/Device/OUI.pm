@@ -504,6 +504,9 @@ delimiter between the bytes.  If no delimiter is provided (as in the case of
 Returns a normalized form of the OUI, with upper-case hex bytes zero-padded and
 separated with dashes (as in 00-17-F2).  Also available as C<< $oui->norm >>.
 
+L<Device::OUI|Device::OUI> objects have stringification overloaded to return
+this value.
+
 =head2 $oui->norm()
 
 This is an alias for L</normalized|normalized()>;
