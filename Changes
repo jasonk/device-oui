@@ -1,5 +1,8 @@
 Revision history for Perl extension Device::OUI.
 
+1.02
+    - Added a missing dependency to Makefile.PL
+
 1.01
     - Fixed required modules in Makefile.PL
 
