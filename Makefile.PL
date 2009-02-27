@@ -5,15 +5,19 @@ all_from 'lib/Device/OUI.pm';
 
 recommends 'LWP::Simple';
 
-requires 'IO::File';
-requires 'AnyDBM_File';
-requires 'Class::Accessor::Grouped';
-requires 'Carp';
-requires 'Exporter';
+requires( $_ ) for qw(
+    IO::File
+    AnyDBM_File
+    Class::Accessor::Grouped
+    Carp
+    Sub::Exporter
+);
 
-test_requires 'Test::More';
-test_requires 'Test::Exception';
-test_requires 'FindBin';
-test_requires 'File::Copy';
+test_requires( $_ ) for qw(
+    Test::More
+    Test::Exception
+    FindBin
+    File::Copy
+);
 
 WriteAll();
