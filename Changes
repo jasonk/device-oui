@@ -1,5 +1,9 @@
 Revision history for Perl extension Device::OUI.
 
+1.03
+    - Made the cache load tests use the lwp-offline testing library, so
+      the tests don't fail when LWP::Simple is not available.
+
 1.02
     - Added a missing dependency to Makefile.PL
 
