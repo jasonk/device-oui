@@ -1,7 +1,10 @@
 #!/usr/bin/env perl
 use strict; use warnings;
 use FindBin qw( $Bin );
-BEGIN { require "$Bin/device-oui-test-lib.pl" }
+BEGIN {
+    require "$Bin/device-oui-test-lib.pl";
+    require "$Bin/fake-lwp.pl";
+}
 use constant {
     OUI     => 'Device::OUI',
     db      => "$Bin/test-cache",
