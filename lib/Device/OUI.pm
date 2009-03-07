@@ -1,6 +1,6 @@
 package Device::OUI;
 use strict; use warnings;
-our $VERSION = '1.03';
+our $VERSION = '1.04';
 use IO::File ();
 use Carp qw( croak carp );
 use AnyDBM_File;

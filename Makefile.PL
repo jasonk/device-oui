@@ -18,6 +18,7 @@ test_requires( $_ ) for qw(
     Test::Exception
     FindBin
     File::Copy
+    LWP::Simple
 );
 
 WriteAll();
